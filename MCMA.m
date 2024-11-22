@@ -151,7 +151,7 @@ henh = imhist(uint8(Ienh));
 
 % remove salt & pepper - threshold = 0.001
 thr = 0.001;
-pix_thr = round(prod(size(Ilow)) * thr);
+pix_thr = round(numel(Ilow) * thr);
 % remove salt 
 idx = 1;
 for i = 2 : 256
