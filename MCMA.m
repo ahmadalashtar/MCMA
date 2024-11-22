@@ -113,7 +113,7 @@ end
 stretched_low = stretched_low / sum(stretched_low);
 stretched_enh = stretched_enh / sum(stretched_enh);
 bin_length = 8;
-diffs=[];
+diffs = zeros(bin_length,256/bin_length);
 for j=1:bin_length
     for i=1:256/bin_length
         if (mod(j,bin_length)==1)
