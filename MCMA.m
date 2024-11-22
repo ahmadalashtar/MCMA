@@ -38,19 +38,32 @@ end
 
 %% ---------- PU -------------
 function PUval = getPU(Ienh)
-Ienh = double(Ienh);
-PUval = [];
+    Ienh = double(Ienh);
 
-
-for i = 2 : size( Ienh , 1 ) - 1
-    for j = 2 : size( Ienh , 2 ) - 1
-        block = Ienh( i - 1 : i + 1 , j - 1 : j + 1 );
-        PUval( i , j ) = sum( sum( 1 ./ ( abs( Ienh( i , j ) - block ) + 1 ) ) ) / 9;        
+    % Calculate the size of the matrix for valid regions
+    paddedIenh = padarray(Ienh, [1, 1], 'replicate');
+    centerBlock = paddedIenh(2:end-1, 2:end-1);
+    
+    % Create a 3D block matrix for surrounding pixels
+    neighbors = cell(3, 3);
+    for i = 1:3
+        for j = 1:3
+            neighbors{i, j} = paddedIenh(i:end-3+i, j:end-3+j);
+        end
     end
+    
+    % Stack neighbors into a single 3D matrix
+    neighborStack = cat(3, neighbors{:});
+    
+    % Compute PU values for all pixels
+    absDiff = abs(neighborStack - centerBlock);
+    PU = sum(1 ./ (absDiff + 1), 3) / 9;
+
+    % Exclude border pixels from the computation
+    PU_inner = PU(2:end-1, 2:end-1);
+    PUval = mean(PU_inner(:));
 end
 
-PUval = mean( mean( PUval ) );
-end
 %% 
 
 
