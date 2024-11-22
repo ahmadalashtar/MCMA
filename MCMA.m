@@ -108,11 +108,6 @@ for i=1:length(nanz)
     i_stretched_enh(nanz(i))=i_stretched_enh(nanz(i)-1);
 end
 
-out1 = [i_stretched_low;i_stretched_enh];
-
-
-valsenh = length(dynamic_enh);
-
 % out2 to be calculated 
 % 8
 stretched_low = stretched_low / sum(stretched_low);
